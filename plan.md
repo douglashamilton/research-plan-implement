@@ -67,7 +67,7 @@ Produce a **single markdown plan** that a developer can hand to Copilot Chat wit
 
 ### Domain model
 
-* Refine the **Domain modal candidates** from Step-1 into a confirmed set of entities.
+* Refine the **Domain model candidates** from Step-1 into a confirmed set of entities.
 * Entities with fields/types, relationships, and invariants (bulleted).
 * Include **IDs**, **timestamps**, and validation rules.
 
