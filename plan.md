@@ -1,14 +1,14 @@
-# Step 2 — Planning Prompt (Reusable Template)
+# Step 2 — Planning Prompt (Vertical‑Slice Method)
 
 ## How to use
 
-Paste this into ChatGPT and attach your Step-1 Research output. Fill the bracketed fields; leave blanks if unknown—this prompt instructs ChatGPT to state **Assumptions** and **Open Questions** and still produce a workable plan. Expect 1–2 iterations to lock the spec before handing it to Copilot in VS Code.
+Paste this into ChatGPT and attach your **step‑1‑research-output.md**. Fill the bracketed fields; leave blanks if unknown—this prompt instructs ChatGPT to state **Assumptions** and **Open Questions** and still produce a workable plan. Save the output as **step-2-planning-output.md**. Output includes ready‑to‑paste **Copilot prompts** for Slice 1.
 
 ---
 
 > Copy from here ↓
 
-You are my **solution architect** and **build planner**. Convert the Step-1 Research Brief into a **Copilot-ready build spec** for a basic–medium complexity app. Favor simplicity and defaults.
+You are my **solution architect** and **build planner**. Convert the Step‑1 Research into a **Copilot‑ready build plan** centered on a **walking skeleton** and **one vertical slice (Slice 1)**. Favor simplicity and defaults.
 
 ## Input (from me)
 
@@ -16,7 +16,7 @@ You are my **solution architect** and **build planner**. Convert the Step-1 Rese
 * **One-sentence objective:** {{Objective}}
 * **Step-1 artifact:** {{Paste or link the Research Brief}}
 * **Primary platform(s):** {{Web / Desktop / Mobile / CLI}}
-* **Preferred stack (if any):** {{e.g., React+Vite+TypeScript, Flask+SQLite, Node+Express}}
+* **Preferred stack (if any):** {{e.g., React+Vite+TS, FastAPI+SQLite, Node+Express}}
 * **Runtime & package manager:** {{Node LTS / Python 3.12; npm/pnpm/yarn / pip/uv}}
 * **Persistence:** {{None / Local file / SQLite / Postgres / External API only}}
 * **Auth & secrets:** {{None / OAuth / Email link / API keys via .env}}
@@ -28,28 +28,36 @@ You are my **solution architect** and **build planner**. Convert the Step-1 Rese
 
 ## What to do
 
-Produce a **single markdown plan** that a developer can hand to Copilot Chat with minimal edits:
+Produce a **single markdown plan** that a developer can hand to Copilot Chat **with minimal edits**, focused on one slice shipped to “running”.
 
-1. Pick a pragmatic **tech stack** consistent with constraints; if unclear, present two options with trade-offs and pick one.
-2. Specify **file/folder map**, **components**, **domain model**, **data flow**, **API contracts**, **acceptance tests**, **NFRs**, and a **prompt sequencing plan** for Copilot.
-3. Call out **Assumptions**, **Open Questions**, **Risks**, and a short **Iteration Plan** to close gaps.
+1. Choose/confirm a pragmatic **tech stack** aligned with constraints.
+2. Define a **walking skeleton** (boot, healthcheck, minimal UI/logging) with no dead routes.
+3. Select **Slice 1** from Step‑1 (or refine) and **freeze contracts**, **author tests**, and provide **Copilot prompt scripts** to implement.
+4. Call out **Assumptions**, **Open Questions**, **Risks**, and an **Iteration Plan**.
 
 ## Output format (markdown)
 
 ### Bottom line
 
-* One paragraph: stack choice, why it fits, and what will ship in MVP.
+* One paragraph: stack choice, why it fits, and what will ship in the MVP **walking skeleton + Slice 1**.
 
 ### Steps (max 3 bullets)
 
-* The 1–3 highest-leverage actions to move into implementation.
+* The 1–3 highest‑leverage actions to start implementation (skeleton + Slice 1 tests).
 
 ### Architecture at a glance
 
 * **Stack:** framework, key libs, test runner, formatter/linter.
-* **App structure:** SPA/SSR/API-only/hybrid; how state is managed.
-* **Data storage:** what and why; migration approach (if any).
+* **App style:** SPA/SSR/API‑only/hybrid; how state is managed.
+* **Data storage:** what and why; migration approach.
 * **Auth:** method or “none”.
+
+### Walking skeleton (must run before Slice 1)
+
+* Routes/pages/components mounted (healthcheck, index).
+* Logging/telemetry enabled minimally.
+* Dev commands (run, test, lint, format) and .env.example present.
+* **No NotImplemented paths reachable**.
 
 ### File & folder map (initial)
 
@@ -63,87 +71,97 @@ Produce a **single markdown plan** that a developer can hand to Copilot Chat wit
   scripts/
 ```
 
-* For each entry: 1-line purpose. Keep tree minimal and coherent.
+* For each entry: 1‑line purpose. Keep minimal & coherent.
 
-### Domain model
+### Domain model (canonical)
 
-* Refine the **Domain model candidates** from Step-1 into a confirmed set of entities.
-* Entities with fields/types, relationships, and invariants (bulleted).
-* Include **IDs**, **timestamps**, and validation rules.
+* Confirm entities, fields/types, relationships, invariants.
+* IDs, timestamps, validation rules. **Single source of truth**.
 
-### Data flow & interfaces
+### Data flow & interfaces (contracts)
 
-* Refine Step-1 **Events/flows** into concrete inbound/outbound data flows. 
-* **Inbound:** events/requests → handlers → services → storage.
-* **Outbound:** UI → API calls; background jobs (if any).
-* For each API (internal/external), define **endpoints/contracts**:
+* Inbound: events/requests → handlers → services → storage.
+* Outbound: UI → API calls; background jobs (if any).
+* For each API, define **endpoint contracts** (request, response, error shape, auth, limits).
 
-```http
-POST /api/{{resource}}
-Request: { ... }
-Response: { ... }  // include error shape
-Limits: {{rate limits}} | Auth: {{scheme}}
+### Slice 1 — Plan to “Done”
+
+* **Objective:** {{One‑sentence objective for Slice 1}}
+* **Path:** {{UI/CLI}} → {{Route/Handler}} → {{Service}} → {{DB/External API}} → {{Response/Render}}
+* **Contracts to lock:** list exact public signatures (routes, DTOs, table changes).
+* **Acceptance tests (contract):** 4–8 Gherkin cases (incl. one negative and one perf/logging assertion).
+* **Fixtures/mocks:** what to stub; sample inputs/outputs.
+* **Tasks (sequenced):**
+
+  1. Create/update tests for acceptance criteria.
+  2. Implement minimal logic to make tests pass.
+  3. Wire telemetry (entry/exit logs with key fields).
+  4. Manual check: URL to hit, expected logs/response.
+
+### Copilot prompt scripts (ready to paste)
+
+**A. Operating Agreement (paste once per session)**
+
+```
+Operating Agreement
+- Edit in place; modify only the named file/function. Don’t create new files unless asked.
+- Don’t duplicate models, routes, or helpers. If a change impacts shared types, propose a one-line Change Request first.
+- Respect existing tests and public signatures.
+- Return a minimal patch (diff or changed regions only).
+- Search the repo for references before writing new code.
 ```
 
-### Components & responsibilities
-
-* UI components / pages (or CLI commands) with 1-line responsibilities and key props/inputs.
-* Services/utilities with inputs/outputs.
-
-### Acceptance tests (contract)
-
-* 6–10 Gherkin-style cases that **define done**:
+**B. Slice Setup Prompt**
 
 ```
-Scenario: {{feature}}
-  Given {{precondition}}
-  When {{action}}
-  Then {{observable result within threshold}}
+Slice: {{Objective}}
+Scope: {{UI/CLI}} → {{Route/Handler}} → {{Service}} → {{DB/External API}} → {{Response/Render}}
+Contracts to fix: {{DTOs / schemas / route signatures / tables}}
+Acceptance criteria:
+1) {{G/W/T #1}}
+2) {{G/W/T #2 (negative)}}
+Tasks:
+- Create/update tests for the criteria.
+- Apply minimal code changes to pass tests.
+- Add structured logs at entry/exit with key fields.
+Constraints: Edit-in-place. No new files unless approved. No duplication. Minimal patch only.
+Deliverables: Updated tests, code patch, brief note on any contract changes.
 ```
 
-### Non-functional requirements (NFRs)
+**C. Contract Lock Prompt**
 
-* Performance targets (latency, throughput), reliability, accessibility, i18n, logging/telemetry, security basics. Include concrete numbers when possible.
+```
+Lock contracts for this slice.
+List the exact public signatures (routes, request/response DTOs, DB schema changes) and show minimal edits to existing types. If a change conflicts with other modules, write a one-line “Change Request”.
+```
 
-### Tooling & workflows
+**D. Red‑Green Prompt**
 
-* **Testing:** unit/integration/e2e scope; coverage target.
-* **Quality:** formatter, linter, type-checking, pre-commit hooks.
-* **CI (minimal):** install → lint → test; artifact or preview step.
+```
+Make the failing tests pass for this slice without changing test intent or public signatures.
+Show only minimal patches to the targeted functions/files and a brief note on why each change was necessary.
+```
+
+**E. Refactor‑with‑Tests Prompt (optional once green)**
+
+```
+With all tests green, improve clarity/performance for {{file/function}}.
+Keep behavior identical. Provide the minimal patch and explain safety (why tests still cover behavior).
+```
+
+**F. Mount/Expose Prompt**
+
+```
+Mount the completed slice into the app (routers, menu link, HTMX/CLI action).
+Update OpenAPI/templating minimally. Provide the patch and a quick manual checklist (URL to hit, expected log lines).
+```
+
+### Testing & quality gates
+
+* **Testing:** unit/integration/e2e scope; coverage target (e.g., ≥70%).
+* **Quality:** formatter, linter, type‑check, pre‑commit hooks.
+* **CI (minimal):** install → lint → test; artifact/preview optional.
 * **Run commands:** dev, test, build, format, lint.
-
-### Prompt sequencing plan for Copilot (copy-paste scripts)
-
-1. **Scaffold & config**
-
-   ```
-   You are my Copilot. Create the repo structure exactly as per the “File & folder map”. Initialize {{stack}} with {{tooling}}. Add .env.example and README skeleton. Do not invent files outside the spec. If a conflict arises, propose a Change Request.
-   ```
-2. **Domain & contracts**
-
-   ```
-   Generate types/models and validation per “Domain model”. Create API routes and request/response schemas from “Data flow & interfaces”. Add error handling and tests.
-   ```
-3. **UI/CLI implementation**
-
-   ```
-   Build components/pages listed in “Components & responsibilities”, using placeholder styling. Wire to APIs. Add loading/empty/error states.
-   ```
-4. **Acceptance tests first**
-
-   ```
-   Create test files implementing all “Acceptance tests”. Run tests; report failures.
-   ```
-5. **Make tests pass**
-
-   ```
-   Implement missing logic until all acceptance tests pass. Do not change test intent without a Change Request.
-   ```
-6. **Docs & packaging**
-
-   ```
-   Fill README with setup/run instructions, env vars, and limitations. Generate .env.example values and comments.
-   ```
 
 ### Risks & mitigations
 
@@ -155,11 +173,11 @@ Scenario: {{feature}}
 
 ### Iteration plan
 
-* What to validate next, and the minimal changes expected in v2.
+* What to validate next; the minimal changes expected in **Slice 2**.
 
 ### Assumptions
 
-* Clearly labeled defaults used where info was missing.
+* Defaults used where info was missing.
 
 ## Guardrails
 

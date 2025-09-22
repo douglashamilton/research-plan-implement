@@ -1,13 +1,14 @@
-# Step 1 — Research Prompt (Reusable Template)
+# Step 1 — Research Prompt (Vertical‑Slice Method)
 
 ## How to use
-Fill the bracketed fields, paste the prompt into ChatGPT (with web browsing enabled), and attach any relevant docs or links. If facts are missing, leave them blank— the prompt instructs ChatGPT to state **Assumptions** and list **Open Questions**. Re-run after you answer those questions. Keep the output and sources as your Step-1 research artifact for Step-2 planning.
+
+Fill the bracketed fields. Paste this into ChatGPT **with web browsing on** and attach any relevant docs or links. If facts are missing, leave them blank—the prompt instructs ChatGPT to state **Assumptions** and **Open Questions**. Save the output as **step-1-research-output.md**. Re‑run after answering open questions. The goal is to produce evidence, **candidate vertical slices**, and draft **acceptance criteria** for Slice 1.
 
 ---
 
 > Copy from here ↓
 
-You are my **product research analyst** and **technical due-diligence partner**. Produce a concise, evidence-based research brief to feed Step-2 Planning. **Browse the web** for authoritative sources and **cite them**.
+You are my **product research analyst** and **technical due‑diligence partner**. Produce a concise, evidence‑based research brief that will feed **Step‑2 Planning** and a Copilot‑driven, **vertical‑slice** build.
 
 ## Input (from me)
 
@@ -24,10 +25,10 @@ You are my **product research analyst** and **technical due-diligence partner**.
 
 ## What to do
 
-1. **Research & synthesize** with citations; note dates for time-sensitive facts.
-2. **Expose gaps**: clearly label Assumptions and Open Questions.
-3. **Define entities & flows**: extract likely domain entities, key fields, and event flows. 
-4. **Propose acceptance criteria** for an MVP that can be tested later.
+1. **Research & synthesize** with citations; date any time‑sensitive facts.
+2. **Expose gaps**: clearly label **Assumptions** and **Open Questions**.
+3. **Define entities & flows**: likely domain entities, key fields, and event flows.
+4. **Propose candidate vertical slices** and draft **acceptance criteria** for each; then **recommend Slice 1**.
 
 ## Output format (markdown)
 
@@ -37,7 +38,7 @@ You are my **product research analyst** and **technical due-diligence partner**.
 
 ### Steps (max 3 bullets)
 
-* 1–3 concrete next actions to move from research → planning.
+* 1–3 actions to move from research → planning (focus on Slice 1 enablement).
 
 ### Research brief
 
@@ -54,29 +55,37 @@ You are my **product research analyst** and **technical due-diligence partner**.
 
 ### Domain model candidates
 
-* **Entities & fields: 3-6 candidate entities with likely fields/types and IDs.
-* **Relationships**: how entities connect (one-to-many, etc.).
-* **Events/flows**: 2-4 key user or system events showing inputs → transformations → outputs.  
+* **Entities & fields:** 3–6 entities with likely fields/types and IDs.
+* **Relationships:** how entities connect.
+* **Events/flows:** 2–4 key user/system events (inputs → transforms → outputs).
 
-### Acceptance criteria (testable)
+### Candidate vertical slices (list 3–5)
 
-* 5–8 bullets phrased as verifiable behaviors, e.g.,
+For each slice, specify:
 
-  * “Given {{precondition}}, when {{action}}, then {{observable result}} within {{threshold}}.”
+* **Objective** (one sentence)
+* **Path** (UI/CLI → Route/Handler → Service → DB/External API → Response)
+* **Key contracts** to stabilize (DTOs, route signatures, DB tables)
+* **Acceptance criteria** (2–3 Given/When/Then bullets, incl. one negative)
+* **Test notes** (what to assert; fixtures/mocks needed)
+
+### Recommended Slice 1
+
+* Pick the **lowest‑risk, highest‑leverage** slice. Justify briefly.
+* Call out blocking **Open Questions** to resolve before planning.
 
 ### Sample I/O & UI hints
 
-* **Sample inputs:** 3–5 realistic examples (incl. edge case).
-* **Expected outputs:** matching examples.
-* **UI reference links:** 2–4 links or keywords (layout/components).
+* 3–5 realistic inputs (incl. an edge case) and expected outputs.
+* 2–4 UI references/keywords (layouts/components) if applicable.
 
 ### Risks & unknowns
 
-* Top 5 risks with **mitigation**; call out any single-point dependencies.
+* Top 5 risks with a mitigation/fallback each.
 
 ### Open questions (answer before planning)
 
-* Numbered list; each with a proposed method to resolve (link/interview/test).
+* Numbered list; each with an owner and resolution method (link/interview/test).
 
 ### Sources
 
@@ -84,14 +93,14 @@ You are my **product research analyst** and **technical due-diligence partner**.
 
 ### Assumptions
 
-* Clearly labeled defaults used where I didn’t provide data.
+* Clearly labeled defaults used where information was missing.
 
 ## Guardrails
 
 * Be concise. Bullets over prose. Avoid hype.
 * Cite sources inline like \[1], and list full references in **Sources**.
 * If evidence conflicts, show both views and recommend a bias.
-* Do **not** propose solutions that violate stated constraints.
+* Do **not** propose solutions that violate constraints.
 * If a key fact is missing, make one **Assumption** and flag it.
 
 > End copy ↑
