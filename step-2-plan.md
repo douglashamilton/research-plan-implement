@@ -103,6 +103,7 @@ Create **6–8** Gherkin-style scenarios that are:
 
 * **Order-independent** and **data-isolated** (fresh fixtures per scenario).
 * **Incremental**: each scenario can pass after changing **one file**.
+* Expand the **draft acceptance criteria from Step 1** into full scenarios with precise Given/When/Then detail.
 * Include at least **2 negative/error cases** and **1 edge case**.
 * Example shape:
 

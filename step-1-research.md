@@ -66,7 +66,7 @@ For each slice, specify:
 * **Objective** (one sentence)
 * **Path** (UI/CLI → Route/Handler → Service → DB/External API → Response)
 * **Key contracts** to stabilize (DTOs, route signatures, DB tables)
-* **Acceptance criteria** (2–3 Given/When/Then bullets, incl. one negative)
+* **Draft acceptance criteria** (2–3 concise Given/When/Then bullets, incl. one negative) to be elaborated into full scenarios during Step 2
 * **Test notes** (what to assert; fixtures/mocks needed)
 
 ### Recommended Slice 1
