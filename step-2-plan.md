@@ -10,7 +10,7 @@
 
 > Copy from here ↓
 
-You are my **solution architect** and **build planner**. Convert the Step-1 research into a **Copilot-ready build spec** for **Slice 1 only** (a fully working vertical slice). Favor simplicity and defaults. Default workflow is **tests-first** with **one failing test → modify one file → make it pass**.
+You are my **solution architect** and **build planner**. Convert the Step-1 research into a **Copilot-ready build spec** for **Slice 1 only** (a fully working vertical slice). Favor simplicity and defaults. Default workflow is **tests-first** with **one failing test → declare one cohesive surface → make it pass**.
 
 ## Input (from me)
 
@@ -35,7 +35,7 @@ Produce a **single markdown plan** that a developer can hand to Copilot Chat wit
 1. Pick a pragmatic **tech stack** consistent with constraints; if unclear, present two options with trade-offs and pick one.
 2. Specify **Slice 1 only**: **file/folder map**, **components/handlers**, **domain model**, **data flow**, **API contracts**, **acceptance tests**, **NFRs**, and a **prompt sequencing plan** for Copilot.
 3. Call out **Assumptions**, **Open Questions**, **Risks**, and a short **Iteration Plan**.
-4. Enforce **iterative cycles**: one failing test at a time; modify **one file** per cycle until green.
+4. Enforce **iterative cycles**: one failing test at a time; modify **one cohesive surface** (the smallest set of tightly related files) per cycle until green.
 
 ## Output format (markdown)
 
@@ -102,7 +102,8 @@ Limits: {{rate limits}} | Auth: {{scheme or none}}
 Create **6–8** Gherkin-style scenarios that are:
 
 * **Order-independent** and **data-isolated** (fresh fixtures per scenario).
-* **Incremental**: each scenario can pass after changing **one file**.
+* **Incremental**: each scenario can pass after changing **one cohesive surface** (usually 1–3 files that form a single interface boundary).
+* Expand the **draft acceptance criteria from Step 1** into full scenarios with precise Given/When/Then detail.
 * Include at least **2 negative/error cases** and **1 edge case**.
 * Example shape:
 
@@ -144,14 +145,14 @@ Scenario: {{validation failure}}
 
 2. **Write Acceptance tests first**
 
-   ```
-   Generate the 6–8 acceptance tests from “Acceptance tests”. Ensure scenarios are order-independent and each can pass by modifying ONE file. Seed fixtures per test. Do not implement app code yet. Run tests and report all failures.
-   ```
+    ```
+    Generate the 6–8 acceptance tests from “Acceptance tests”. Ensure scenarios are order-independent and each can pass by modifying ONE COHESIVE SURFACE. Seed fixtures per test. Do not implement app code yet. Run tests and report all failures.
+    ```
 
-3. **One-test-one-file cycles**
+3. **One-test-one-surface cycles**
 
    ```
-   Pick the FIRST failing test. Modify ONE file only to make it pass. Name the target file up front. If one file cannot reasonably satisfy the test, propose a “Change Request” with rationale and minimal diff. After passing, commit, then move to the next failing test.
+   Pick the FIRST failing test. Declare the ONE COHESIVE SURFACE (e.g., handler + DTO) you will edit to make it pass; keep it to the smallest set of files. If that surface must expand, pause and propose a “Change Request” with rationale and minimal diff. After the surface goes green, commit, then move to the next failing test.
    ```
 
 4. **Minimal implementation for Slice 1**
@@ -168,7 +169,7 @@ Scenario: {{validation failure}}
 
 ### Risks & mitigations
 
-* List 3–5 risks specific to Slice 1 (e.g., hidden cross-file dependencies break one-file rule; flaky async tests; third-party API availability). Provide a concrete mitigation each.
+* List 3–5 risks specific to Slice 1 (e.g., hidden cross-surface dependencies break the cohesive-surface rule; flaky async tests; third-party API availability). Provide a concrete mitigation each.
 
 ### Open questions
 
@@ -191,4 +192,4 @@ Scenario: {{validation failure}}
 
 > End copy ↑
 
-**Key alternative/risk:** If your Slice 1 inherently spans multiple files (e.g., UI+API), relax the one-file rule by allowing one **code** file + one **test** file per cycle, with an explicit “Change Request.”
+**Key alternative/risk:** If your Slice 1 inherently spans broad surfaces (e.g., UI+API), relax the rule only enough to cover the minimal cohesive surface and document the extra scope in a “Change Request.”
