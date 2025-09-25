@@ -46,8 +46,9 @@ You are my **product research analyst** and **technical due‑diligence partner*
 * **Comparable solutions / references:** 3–5 relevant apps, patterns, or repos with 1-line takeaways.
 * **Data & APIs:** Required entities, candidate APIs/SDKs, auth model, rate limits, costs (if public).
 * **Privacy & compliance (if applicable):** e.g., PII, GDPR/CCPA implications, logging.
-* **Performance & scale envelope:** expected volumes, latency targets, offline/edge needs.
-* **Constraints & dependencies:** platforms, runtimes, licenses, org blockers.
+* **Performance, quality & scale envelope:** expected volumes plus concrete latency/availability targets, baseline security posture, and monitoring/observability expectations (note offline/edge needs).
+* **Recommended stack options & rationale:** 1–2 pragmatic stacks mapped to constraints, existing assets, and team skills (call out trade-offs).
+* **Constraints & dependencies:** platforms, runtimes, licenses, org blockers, **engineering standards & tooling constraints** (mandated test runners, linters, CI/CD).
 
 ### MVP scope (first shippable)
 
@@ -66,7 +67,7 @@ For each slice, specify:
 * **Objective** (one sentence)
 * **Path** (UI/CLI → Route/Handler → Service → DB/External API → Response)
 * **Key contracts** to stabilize (DTOs, route signatures, DB tables)
-* **Draft acceptance criteria** (2–3 concise Given/When/Then bullets, incl. one negative) to be elaborated into full scenarios during Step 2
+* **Draft acceptance criteria** (2–3 concise Given/When/Then bullets, incl. one negative) **plus at least one detailed Gherkin skeleton or fixture/data setup that Step 2 must preserve**.
 * **Test notes** (what to assert; fixtures/mocks needed)
 
 ### Recommended Slice 1
@@ -81,7 +82,7 @@ For each slice, specify:
 
 ### Risks & unknowns
 
-* Top 5 risks with a mitigation/fallback each.
+* Top 5 risks with a mitigation/fallback each, including any surfaces likely to span multiple layers that might strain the “one cohesive surface” rule.
 
 ### Open questions (answer before planning)
 

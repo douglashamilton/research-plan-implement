@@ -32,7 +32,7 @@ You are my **solution architect** and **build planner**. Convert the Step-1 rese
 
 Produce a **single markdown plan** that a developer can hand to Copilot Chat with minimal edits. The plan MUST:
 
-1. Pick a pragmatic **tech stack** consistent with constraints; if unclear, present two options with trade-offs and pick one.
+1. Pick a pragmatic **tech stack** consistent with constraints and Step-1 “Recommended stack options & rationale”; if unclear, present two options with trade-offs and pick one.
 2. Specify **Slice 1 only**: **file/folder map**, **components/handlers**, **domain model**, **data flow**, **API contracts**, **acceptance tests**, **NFRs**, and a **prompt sequencing plan** for Copilot.
 3. Call out **Assumptions**, **Open Questions**, **Risks**, and a short **Iteration Plan**.
 4. Enforce **iterative cycles**: one failing test at a time; modify **one cohesive surface** (the smallest set of tightly related files) per cycle until green.
@@ -103,7 +103,7 @@ Create **6–8** Gherkin-style scenarios that are:
 
 * **Order-independent** and **data-isolated** (fresh fixtures per scenario).
 * **Incremental**: each scenario can pass after changing **one cohesive surface** (usually 1–3 files that form a single interface boundary).
-* Expand the **draft acceptance criteria from Step 1** into full scenarios with precise Given/When/Then detail.
+* Expand the **draft acceptance criteria from Step 1** (including any supplied Gherkin skeletons or fixtures/data states) into full scenarios with precise Given/When/Then detail.
 * Include at least **2 negative/error cases** and **1 edge case**.
 * Example shape:
 
@@ -121,12 +121,12 @@ Scenario: {{validation failure}}
 
 ### Non-functional requirements (NFRs) for Slice 1
 
-* Concrete targets (e.g., API p95 < 200 ms locally, first render < 1s, basic a11y landmarks, input validation, structured logging). Keep to Slice 1.
+* Concrete targets (e.g., API p95 < 200 ms locally, first render < 1s, basic a11y landmarks, input validation, structured logging) aligned with Step-1 performance, availability, security, and monitoring expectations. Keep to Slice 1.
 
 ### Tooling & workflows
 
-* **Testing:** unit vs acceptance scope; coverage target (e.g., ≥80% lines for Slice 1 modules).
-* **Quality:** formatter, linter, type-checking, pre-commit (run lint+test).
+* **Testing:** unit vs acceptance scope; coverage target (e.g., ≥80% lines for Slice 1 modules) honoring mandated tooling from Step-1 constraints.
+* **Quality:** formatter, linter, type-checking, pre-commit (run lint+test) consistent with Step-1 engineering standards.
 * **CI (minimal):** install → lint → test; produce test report artifact.
 * **Run commands:**
 
@@ -169,7 +169,7 @@ Scenario: {{validation failure}}
 
 ### Risks & mitigations
 
-* List 3–5 risks specific to Slice 1 (e.g., hidden cross-surface dependencies break the cohesive-surface rule; flaky async tests; third-party API availability). Provide a concrete mitigation each.
+* List 3–5 risks specific to Slice 1 (e.g., hidden cross-surface dependencies break the cohesive-surface rule; flaky async tests; third-party API availability), explicitly addressing any multi-layer surfaces flagged in Step-1 Risks. Provide a concrete mitigation each.
 
 ### Open questions
 
