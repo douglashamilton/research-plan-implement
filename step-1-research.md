@@ -1,4 +1,4 @@
-# Step 1 — Research Prompt (Vertical‑Slice Method)
+# Step 1 — Research Prompt
 
 ## How to use
 
@@ -8,7 +8,7 @@ Fill the bracketed fields. Paste this into ChatGPT **with web browsing on** and 
 
 > Copy from here ↓
 
-You are my **product research analyst** and **technical due‑diligence partner**. Produce a concise, evidence‑based research brief that will feed **Step‑2 Planning** and a Copilot‑driven, **vertical‑slice** build.
+You are my **product research analyst** and **technical due‑diligence partner**. Produce a concise, evidence‑based Product Requirements Document (PRD) that will feed **Step‑2 Planning** and a Copilot‑driven, **vertical‑slice** build.
 
 ## Input (from me)
 
@@ -26,9 +26,9 @@ You are my **product research analyst** and **technical due‑diligence partner*
 ## What to do
 
 1. **Research & synthesize** with citations; date any time‑sensitive facts.
-2. **Expose gaps**: clearly label **Assumptions** and **Open Questions**.
-3. **Define entities & flows**: likely domain entities, key fields, and event flows.
-4. **Propose candidate vertical slices** and draft **acceptance criteria** for each; then **recommend Slice 1**.
+2. **Define the concept**: problem, users, constraints, and success criteria. 
+3. **Explore technical approach**: data sources, data model sketch and platform constraints.
+4. **Expose gaps**: clearly label **Assumptions** and **Open Questions**.
 
 ## Output format (markdown)
 
@@ -36,61 +36,62 @@ You are my **product research analyst** and **technical due‑diligence partner*
 
 * One paragraph: what we should build **now** and why (evidence-based).
 
-### Steps (max 3 bullets)
+### Problem Statement
 
-* 1–3 actions to move from research → planning (focus on Slice 1 enablement).
+* What problem does this application solve and why is it valuable?
 
-### Research brief
+### Target Users / Personas
 
-* **Users & jobs:** 3–5 bullets; key pains and must-have outcomes.
-* **Comparable solutions / references:** 3–5 relevant apps, patterns, or repos with 1-line takeaways.
-* **Data & APIs:** Required entities, candidate APIs/SDKs, auth model, rate limits, costs (if public).
-* **Privacy & compliance (if applicable):** e.g., PII, GDPR/CCPA implications, logging.
-* **Performance, quality & scale envelope:** expected volumes plus concrete latency/availability targets, baseline security posture, and monitoring/observability expectations (note offline/edge needs).
-* **Recommended stack options & rationale:** 1–2 pragmatic stacks mapped to constraints, existing assets, and team skills (call out trade-offs).
-* **Constraints & dependencies:** platforms, runtimes, licenses, org blockers, **engineering standards & tooling constraints** (mandated test runners, linters, CI/CD).
+* Who will use the app?
+* What are their top 3 jobs-to-be-done?
 
-### MVP scope (first shippable)
+### Comparable solutions / references
 
-* 5–8 bullet checklist of capabilities; exclude nice-to-haves.
+* 3–5 relevant apps, patterns, or repos with 1-line takeaways.
 
-### Domain model candidates
+### User Stories
 
-* **Entities & fields:** 3–6 entities with likely fields/types and IDs.
-* **Relationships:** how entities connect.
-* **Events/flows:** 2–4 key user/system events (inputs → transforms → outputs).
+* Up to three user stories in 'given/when/then' format. 
 
-### Candidate vertical slices (list 3–5)
+### Must-Have Features (MVP)
 
-For each slice, specify:
+* Core functionality that must exist in version 1. 
 
-* **Objective** (one sentence)
-* **Path** (UI/CLI → Route/Handler → Service → DB/External API → Response)
-* **Key contracts** to stabilize (DTOs, route signatures, DB tables)
-* **Draft acceptance criteria** (2–3 concise Given/When/Then bullets, incl. one negative) **plus at least one detailed Gherkin skeleton or fixture/data setup that Step 2 must preserve**.
-* **Test notes** (what to assert; fixtures/mocks needed)
+### Nice-to-Have Features
 
-### Recommended Slice 1
+* Optional enhancements that can wait. 
 
-* Pick the **lowest‑risk, highest‑leverage** slice. Justify briefly.
-* Call out blocking **Open Questions** to resolve before planning.
+### Non-functional Requirements
 
-### Sample I/O & UI hints
+* Outline non-functional requirements such as performance (e.g., load within 2 seconds), security (e.g., input validation, secrets handling), privacy (e.g., no sensitive data logged) or compatibility (e.g., Python 3.12, modern browsers).
 
-* 3–5 realistic inputs (incl. an edge case) and expected outputs.
-* 2–4 UI references/keywords (layouts/components) if applicable.
+### Data Model Sketch
 
-### Risks & unknowns
+* Entities (tables or objects) with key fields and relationships.
 
-* Top 5 risks with a mitigation/fallback each, including any surfaces likely to span multiple layers that might strain the “one cohesive surface” rule.
+### Recommended stack options & rationale
 
-### Open questions (answer before planning)
+* 1–2 pragmatic stacks mapped to core functionality, data model, constraints, and Copilot-driven target build method (call out trade-offs).
 
-* Numbered list; each with an owner and resolution method (link/interview/test).
+### Acceptance Criteria
+
+* Checklist of measurable outcomes (e.g.' "User can add and view a task within 3 clicks").
+
+### Risks & Mitigations
+
+* Top 5 risks with a mitigation/fallback each. 
+
+### Out-of-Scope
+
+* Explicitly excluded features or platforms. 
 
 ### Assumptions
 
 * Clearly labeled defaults used where information was missing.
+
+### Open questions (answer before planning)
+
+* Numbered list. Significant open questions only, leave blank when trivial questions remain. 
 
 ### Sources
 
@@ -105,3 +106,5 @@ For each slice, specify:
 * If a key fact is missing, make one **Assumption** and flag it.
 
 > End copy ↑
+
+---
