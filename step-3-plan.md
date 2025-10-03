@@ -1,45 +1,112 @@
-# Step 3 - Planning Prompt
+# Step 3 — Slice Build Planning Prompt
 
 ## How to use
 
-Paste the PRD (Step 1 artifact) and the TDD (Step 2 artifact) into ChatGPT as attachments. Fill the bracketed fields detailing the slice that needs to be planned. Run this prompt and apply the instructions in Copilot in VS Code. 
+Run this prompt inside **GitHub Copilot Chat (Codex)** in VS Code with your repository open so the model has the live codebase plus the PRD (Step 1) and TDD (Step 2) as context. Fill in every bracketed field before sending it. Re-run after each slice ships or when the TDD changes.
 
 ---
 
 > Copy from here ↓
 
-You are my **senior developer** and **build planner**. Convert the TDD and the PRD into a copilot ready build plan that can be followed by me to build the next thin vertical slice for my application. The vertical-slice workflow is **tests-first** with **one failing test → declare one cohesive surface → make it pass**.
+You are my **senior developer** and **build planner**. Convert the PRD and TDD into a Copilot-ready Slice Build Plan (SBP) that I can follow to build the next thin vertical slices for this application. We ship with a **tests-first** workflow: write **one failing test**, define **one cohesive surface**, and drive it to green before moving on.
 
 ## Input (from me)
+
 * **Project name:** {{Name}}
 * **One-sentence objective:** {{Objective}}
-* **Step-1 artifact:** {{Paste or link the PRD}}
-* **Step-1 artifact:** {{Paste or link the TDD}}
-* **Stack/runtime:** {{e.g., FastAPI+Jinja+SQLite | Streamlit+SQLite | other as per TDD}}
-* **Repo state:** {{new repo | link}}
+* **Step-1 artifact (PRD):** {{Paste or link}}
+* **Step-2 artifact (TDD):** {{Paste or link}}
+* **Stack/runtime (confirm):** {{e.g., FastAPI+Jinja+SQLite}}
+* **Repo state:** {{new repo | branch | commit hash}}
+* **Slice window:** {{Slice numbers/names to plan now}}
+* **Known constraints since TDD:** {{New deadlines, integrations, refactors, bugs}}
 * **Depth:** {{brief | standard | deep}} (default: standard)
 
 ## What to do
 
-Produce a **single markdown plan** that a developer can hand to Copilot Chat with minimal edits. The plan MUST:
-1. Summarise the desired slice (0 or N). 
-2. Define the first failing test, the surface it exercises, and the conditions that make it pass. 
+Produce a **single markdown plan** that a developer can paste into Copilot Chat with minimal edits. The plan MUST:
+
+1. **Validate readiness**: restate the objective, confirm dependencies are satisfied, and list blockers or prerequisite work before coding.
+2. **Restate global guardrails** from the TDD (scope fences, quality bars, security/observability expectations) so Copilot operates safely inside them.
+3. **Define the slice window**: identify which slices will be executed now, why they matter, and how they relate.
+4. For **each slice** in the window, provide:
+   * Slice goal and completion definition.
+   * Preconditions/dependencies (including data seeds, migrations, or answers to open questions).
+   * Tests to author first (file names + test descriptions, failing assertion details).
+   * Touch-only files and the cohesive surface boundaries.
+   * Ordered Copilot prompt script (what to paste/ask, including context snippets or commands).
+   * Implementation checkpoints (what success looks like after each prompt or edit).
+   * Verification steps (tests/linters to run, manual QA) and telemetry/logging to confirm.
+   * Follow-up or cleanup tasks if time-boxed work leaves debt.
+5. **Summarize after-shipment actions**: documentation updates, deployment steps, or observations to capture for the next planning cycle.
 
 ## Output format (markdown)
 
-### Slice Plan — {{Project name}}
+### Slice Build Plan — {{Project name}}
 
-0) Plan Overview:
+0) Plan Overview
 
-* Stack: {{from TDD}}
-* Current codebase state: {{commit/tag or “new repo”}}
-* Window: slices planned now = {{Slice 0..2}} (re-plan after each shipment)
-* Policy: TDD contracts are frozen during this window; any change requires a TDD change first (Step-2) and then slice regeneration.
+* Objective recap: {{from inputs}}
+* Stack confirmation: {{from TDD}}
+* Current repo state: {{branch/commit}}
+* Slice window: {{list slices covered now}}
+* Prerequisites: {{list blocking tasks or "None"}}
 
-1) Global Guardrails (from TDD):
+1) Global Guardrails (from TDD)
 
-* Scope fence: Copilot may only modify files in each slice’s Touch-only list.
-* Quality gates: lint/format/test must pass; structured logs emit required events.
-* Security: input validation, secrets via .env, no PII in logs.
-* Observability: log {ts, level, event, request_id}; emit events listed per slice.
-* Config: local-first run; .env.example maintained.
+* Scope fence: {{files/services Copilot may modify}}
+* Quality gates: {{lint, format, test expectations}}
+* Security & privacy: {{input validation, secrets handling}}
+* Observability: {{required logs/metrics/events}}
+* Config & tooling: {{env files, scripts, automation}}
+
+2) Slice Window Summary
+
+| Slice | Objective | Depends on |
+| --- | --- | --- |
+| {{Slice ID}} | {{One-line goal}} | {{Prereqs or "None"}} |
+
+3) Slice Execution Plans
+
+#### Slice {{N}} — {{Slice name}}
+
+* **Goal:** {{What success delivers}}
+* **Definition of done:**
+  * {{Acceptance criterion 1}}
+  * {{Acceptance criterion 2}}
+* **Preconditions:** {{Data seeds, migrations, answers needed}}
+* **Touch-only files:** {{List directories/files Copilot may edit}}
+* **First failing test(s):**
+  * File: `{{path/to/test_file}}`
+  * Test name: `{{test_case_name}}`
+  * Failure setup: {{What assertion should fail initially}}
+* **Copilot prompt script:**
+  1. `{{Prompt text or command to send to Copilot}}`
+  2. `{{Next prompt}}`
+* **Implementation checkpoints:**
+  * {{Checkpoint 1}}
+  * {{Checkpoint 2}}
+* **Verification:**
+  * Command(s): `{{e.g., pytest tests/test_slice.py -k new_case}}`
+  * Manual QA: {{Steps}}
+  * Telemetry/logging: {{Events to confirm}}
+* **Follow-ups / debts:** {{Refactors, docs, tickets}}
+
+> Repeat the Slice section for every slice in the window.
+
+4) After-shipment actions
+
+* Documentation to update: {{README, ADRs, changelog}}
+* Deployment / release steps: {{Scripts or commands}}
+* Next review trigger: {{When to re-run Step 3}}
+
+## Guardrails
+
+* Stay aligned with the TDD; if a change is required, flag a **Design Change Request** back to Step 2 instead of altering scope here.
+* Assume Copilot writes all code—provide instructions, not diffs.
+* Keep prompts concise and sequential so Copilot can follow without additional clarification.
+* Prefer smallest viable slice; if the plan feels too large, split and recommend a narrower slice window.
+
+> End copy ↑
+
+---
