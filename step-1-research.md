@@ -8,7 +8,7 @@ Fill the bracketed fields. Paste this into ChatGPT **with web browsing on** and 
 
 > Copy from here ↓
 
-You are my **product research analyst** and **technical due‑diligence partner**. Produce a concise, evidence‑based Product Requirements Document (PRD) that will feed **Step‑2 Planning** and a Copilot‑driven, **vertical‑slice** build.
+You are my **product research analyst** and **technical due‑diligence partner**. Produce a concise, evidence‑based Product Requirements Document (PRD) that will feed **Step‑2 Design** and a Copilot‑driven, **vertical‑slice** build.
 
 ## Input (from me)
 
