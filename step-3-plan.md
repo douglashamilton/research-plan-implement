@@ -22,8 +22,8 @@ You are my **senior developer** and **build planner**. Convert the TDD and the P
 ## What to do
 
 Produce a **single markdown plan** that a developer can hand to Copilot Chat with minimal edits. The plan MUST:
-
-1. Define 
+1. Summarise the desired slice (0 or N). 
+2. Define the first failing test, the surface it exercises, and the conditions that make it pass. 
 
 ## Output format (markdown)
 
