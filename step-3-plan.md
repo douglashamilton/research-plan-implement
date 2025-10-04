@@ -2,7 +2,7 @@
 
 ## How to use
 
-Run this prompt inside **GitHub Copilot Chat (Codex)** in VS Code with your repository open so the model has the live codebase plus the PRD (Step 1) and TDD (Step 2) as context. Fill in every bracketed field before sending it. Re-run after each slice ships or when the TDD changes.
+Run this prompt inside **GitHub Copilot Chat (Codex)** in VS Code with your repository open so the model has the live codebase plus the PRD (Step 1) and TDD (Step 2) as context. Fill in every bracketed field before sending it. Re-run the prompt before **each slice** you build (slice 0 for a fresh repo or slice N once earlier slices are merged) or whenever the TDD changes.
 
 ---
 
@@ -18,18 +18,18 @@ You are my **senior developer** and **build planner**. Convert the PRD and TDD i
 * **Step-2 artifact (TDD):** {{Paste or link}}
 * **Stack/runtime (confirm):** {{e.g., FastAPI+Jinja+SQLite}}
 * **Repo state:** {{new repo | branch | commit hash}}
-* **Slice window:** {{Slice numbers/names to plan now}}
+* **Slice target:** {{Single slice number/name to plan now}}
 * **Known constraints since TDD:** {{New deadlines, integrations, refactors, bugs}}
 * **Depth:** {{brief | standard | deep}} (default: standard)
 
 ## What to do
 
-Produce a **single markdown plan** that a developer can paste into Copilot Chat with minimal edits. The plan MUST:
+Produce a **single markdown plan** that a developer can paste into Copilot Chat with minimal edits. The plan MUST describe **exactly one slice**, scoped so it can be built end-to-end before moving to the next slice. The plan MUST:
 
 1. **Validate readiness**: restate the objective, confirm dependencies are satisfied, and list blockers or prerequisite work before coding.
 2. **Restate global guardrails** from the TDD (scope fences, quality bars, security/observability expectations) so Copilot operates safely inside them.
-3. **Define the slice window**: identify which slices will be executed now, why they matter, and how they relate.
-4. For **each slice** in the window, provide:
+3. **Define the active slice**: identify the slice being executed now (e.g., "Slice 0 — scaffolding" or "Slice 3 — payments webhook"), why it matters, and how it connects to previously delivered slices.
+4. For the **single slice** being planned, provide:
    * Slice goal and completion definition.
    * Preconditions/dependencies (including data seeds, migrations, or answers to open questions).
    * Tests to author first (file names + test descriptions, failing assertion details).
@@ -38,7 +38,7 @@ Produce a **single markdown plan** that a developer can paste into Copilot Chat 
    * Implementation checkpoints (what success looks like after each prompt or edit).
    * Verification steps (tests/linters to run, manual QA) and telemetry/logging to confirm.
    * Follow-up or cleanup tasks if time-boxed work leaves debt.
-5. **Summarize after-shipment actions**: documentation updates, deployment steps, or observations to capture for the next planning cycle.
+5. **Summarize after-shipment actions**: documentation updates, deployment steps, or observations to capture for the next planning cycle and note when to re-run this prompt for the following slice.
 
 ## Output format (markdown)
 
@@ -49,7 +49,7 @@ Produce a **single markdown plan** that a developer can paste into Copilot Chat 
 * Objective recap: {{from inputs}}
 * Stack confirmation: {{from TDD}}
 * Current repo state: {{branch/commit}}
-* Slice window: {{list slices covered now}}
+* Active slice: {{slice identifier/name}}
 * Prerequisites: {{list blocking tasks or "None"}}
 
 1) Global Guardrails (from TDD)
@@ -60,11 +60,12 @@ Produce a **single markdown plan** that a developer can paste into Copilot Chat 
 * Observability: {{required logs/metrics/events}}
 * Config & tooling: {{env files, scripts, automation}}
 
-2) Slice Window Summary
+2) Slice Focus
 
-| Slice | Objective | Depends on |
-| --- | --- | --- |
-| {{Slice ID}} | {{One-line goal}} | {{Prereqs or "None"}} |
+* Slice ID: {{Slice identifier}}
+* Slice name: {{Short descriptive label}}
+* Why this slice now: {{Tie to PRD/TDD and previous slices}}
+* Dependencies: {{Prereqs or "None"}}
 
 3) Slice Execution Plans
 
@@ -92,13 +93,11 @@ Produce a **single markdown plan** that a developer can paste into Copilot Chat 
   * Telemetry/logging: {{Events to confirm}}
 * **Follow-ups / debts:** {{Refactors, docs, tickets}}
 
-> Repeat the Slice section for every slice in the window.
-
 4) After-shipment actions
 
 * Documentation to update: {{README, ADRs, changelog}}
 * Deployment / release steps: {{Scripts or commands}}
-* Next review trigger: {{When to re-run Step 3}}
+* Next review trigger: {{When to re-run Step 3 (e.g., "Before starting Slice N+1")}}
 
 ## Guardrails
 
