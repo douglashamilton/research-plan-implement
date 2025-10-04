@@ -2,13 +2,13 @@
 
 ## How to use
 
-Fill the bracketed fields. Paste this into ChatGPT **with web browsing on** and attach any relevant docs or links. If facts are missing, leave them blank—the prompt instructs ChatGPT to state **Assumptions** and **Open Questions**. Save the output as **step-1-research-output.md**. Re‑run after answering open questions. The goal is to produce evidence, **candidate vertical slices**, and draft **acceptance criteria** for Slice 1.
+Fill the bracketed fields. Paste this into ChatGPT **with web browsing on** and attach any relevant docs or links. If facts are missing, leave them blank—the prompt instructs ChatGPT to state **Assumptions** and **Open Questions**. Save the output as **step-1-research-output.md**. Re‑run after answering open questions. The goal is to produce evidence and draft **acceptance criteria** for the initial scope.
 
 ---
 
 > Copy from here ↓
 
-You are my **product research analyst** and **technical due‑diligence partner**. Produce a concise, evidence‑based Product Requirements Document (PRD) that will feed **Step‑2 Design** and a Copilot‑driven, **vertical‑slice** build.
+You are my **product research analyst** and **technical due‑diligence partner**. Produce a concise, evidence‑based Product Requirements Document (PRD) that will feed **Step‑2 Design** and the subsequent planning cycle.
 
 ## Input (from me)
 
@@ -27,7 +27,7 @@ You are my **product research analyst** and **technical due‑diligence partner*
 
 1. **Research & synthesize** with citations; date any time‑sensitive facts.
 2. **Define the concept**: problem, users, constraints, and success criteria. 
-3. **Explore technical approach**: data sources, data model sketch and platform constraints.
+3. **Assess feasibility**: identify critical data sources, platform constraints, and research-backed considerations without prescribing implementation.
 4. **Expose gaps**: clearly label **Assumptions** and **Open Questions**.
 
 ## Output format (markdown)
@@ -65,13 +65,9 @@ You are my **product research analyst** and **technical due‑diligence partner*
 
 * Outline non-functional requirements such as performance (e.g., load within 2 seconds), security (e.g., input validation, secrets handling), privacy (e.g., no sensitive data logged) or compatibility (e.g., Python 3.12, modern browsers).
 
-### Data Model Sketch
+### Data Considerations
 
-* Entities (tables or objects) with key fields and relationships.
-
-### Recommended stack options & rationale
-
-* 1–2 pragmatic stacks mapped to core functionality, data model, constraints, and Copilot-driven target build method (call out trade-offs).
+* Key data sources, quality notes, and any structural implications worth highlighting for later design.
 
 ### Acceptance Criteria
 
