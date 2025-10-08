@@ -34,8 +34,8 @@ Produce a **single markdown plan** that a developer can paste into Copilot Chat 
    * Preconditions/dependencies (including data seeds, migrations, or answers to open questions).
    * Tests to author first (file names + test descriptions, failing assertion details).
    * Touch-only files and the cohesive surface boundaries.
-   * Ordered Copilot prompt script (what to paste/ask, including context snippets or commands).
-   * Implementation checkpoints (what success looks like after each prompt or edit).
+   * Ordered Copilot prompt script (what to paste/ask, including context snippets or commands) presented in chronological order.
+   * Implementation checkpoints (what success looks like after each prompt or edit) listed in the same chronological sequence they should be met.
    * Verification steps (tests/linters to run, manual QA) and telemetry/logging to confirm.
    * Follow-up or cleanup tasks if time-boxed work leaves debt.
 5. **Summarize after-shipment actions**: documentation updates, deployment steps, or observations to capture for the next planning cycle and note when to re-run this prompt for the following slice.
